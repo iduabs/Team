@@ -1,5 +1,8 @@
 import pygame
 
+SCREEN_WIDTH = 450
+SCREEN_HEIGHT = 600
+
 
 # 子弹类
 class Bullet(pygame.sprite.Sprite):
@@ -49,3 +52,36 @@ class Player(pygame.sprite.Sprite):
         self.img_index = 0
         # 判断飞机是否被打中
         self.is_hit = False
+
+    def shoot(self, img):
+        bullet = Bullet(img, self.rect.midtop)
+        # 添加子弹实例到玩家的子弹组
+        self.bullets.add(bullet)
+
+    def moveUp(self):
+        # 当遇到顶部时,设置上顶部为0
+        if self.rect.top <= 0:
+            self.rect.top = 0
+        else:
+            self.rect.top -= self.speed
+
+    def moveDown(self):
+        # 当遇到底部时,设置一直为常值
+        if self.rect.top >= SCREEN_HEIGHT - self.rect.height:
+            self.rect.top = SCREEN_HEIGHT - self.rect.height
+        else:
+            self.rect.top += self.speed
+
+    def moveLeft(self):
+        # 当遇到左边时,一直停靠在左边
+        if self.rect.left <= 0:
+            self.rect.left = 0
+        else:
+            self.rect.left -= self.speed
+
+    def moveRight(self):
+        # 当遇到右边时, 停靠右边
+        if self.rect.left >= SCREEN_WIDTH - self.rect.width:
+            self.rect.left = SCREEN_WIDTH - self.rect.width
+        else:
+            self.rect.left += self.speed
